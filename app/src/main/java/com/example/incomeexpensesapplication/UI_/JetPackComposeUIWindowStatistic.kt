@@ -1,16 +1,26 @@
 package com.example.incomeexpensesapplication.UI_
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -24,10 +34,13 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -45,7 +58,7 @@ fun MyMainScreen(viewModel: ExpensesViewModel = viewModel() , NavController: Nav
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            MediumTopAppBar(
+            CenterAlignedTopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.primary,
@@ -77,16 +90,36 @@ fun MyMainScreen(viewModel: ExpensesViewModel = viewModel() , NavController: Nav
                 scrollBehavior = scrollBehavior
             )
         },
+
         floatingActionButton = { ButtonAdd(navController = NavController) }
     ) { innerPadding ->
-        LazyColumn(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(10.dp)
         ) {
-            items(expenses) { expense ->
-                ListOfItem(expense.title + ": " + expense.amount)
+            Box(modifier =
+                Modifier.fillMaxWidth()
+                    .padding(vertical = 20.dp),
+                contentAlignment = Alignment.Center
+                ) {
+                RoundedCornerBoxClipped()
+            }
+            Divider(
+                color = Color.Gray,
+                thickness = 2.dp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
+            )
+            LazyColumn(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(10.dp)
+            ) {
+                items(expenses) { expense ->
+                    ListOfItem(expense.title + ": " + expense.amount)
+                }
             }
         }
     }
@@ -122,3 +155,32 @@ private fun ButtonAdd(navController: NavController) {
         Icon(Icons.Filled.Add, contentDescription = "Add description")
     }
 }
+
+@Composable
+fun RoundedCornerBoxClipped() {
+    Box(
+        modifier = Modifier
+            .size(width = 300.dp, height = 200.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .background(Color.Magenta)
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text("Future Expenses and Income", color = Color.White)
+    }
+}
+@Composable
+@Preview
+fun BoxPreview(){
+    RoundedCornerBoxClipped()
+}
+/*
+@Composable
+fun Line(){
+    Box(modifier =
+        Modifier.fillMaxWidth()
+            .height(3.dp)
+            .background(Color.Black)){
+
+    }
+}*/

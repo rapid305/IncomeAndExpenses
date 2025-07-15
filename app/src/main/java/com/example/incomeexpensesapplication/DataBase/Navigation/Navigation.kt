@@ -18,7 +18,7 @@ fun NavGraphSetup(viewModel: ExpensesViewModel) {
           MyMainScreen(viewModel , navController)
       }
         composable("AddWindow"){
-            Window()
+            Window(navController)
         }
     })
 }
