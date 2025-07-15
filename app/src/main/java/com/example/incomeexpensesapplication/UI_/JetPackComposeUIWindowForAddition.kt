@@ -33,13 +33,16 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.graphics.Color
+import com.example.incomeexpensesapplication.DataBase.Model.Expenses
+import com.example.incomeexpensesapplication.ViewModel.ExpensesViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Window(navController: NavController) {
+fun Window(navController: NavController , viewModel: ExpensesViewModel) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-    var text by remember { mutableStateOf("") }
+    var title by remember { mutableStateOf("") }
+    var amount by remember { mutableStateOf("") }
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -77,8 +80,14 @@ fun Window(navController: NavController) {
             verticalArrangement = Arrangement.Center
         ) {
             TextField(
-                value = text,
-                onValueChange = { text = it },
+                value = title,
+                onValueChange = { title = it },
+                label = { Text("Введите Текст") },
+                modifier = Modifier.fillMaxWidth()
+            )
+            TextField(
+                value = amount,
+                onValueChange = { amount = it },
                 label = { Text("Введите Текст") },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -88,7 +97,8 @@ fun Window(navController: NavController) {
                     .width(200.dp)
                     .padding(35.dp),
                 onClick = {
-                    navController.navigate("MainWindow")
+                    viewModel.addExpense(Expenses(title = title, amount = amount))
+                    navController.popBackStack()
                 }
             ) {
                 Text(text = "Submit")

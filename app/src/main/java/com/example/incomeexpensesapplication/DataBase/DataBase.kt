@@ -10,7 +10,7 @@ import com.example.incomeexpensesapplication.DataBase.Model.Income
 
 @Database(
     entities = [Income::class, Expenses::class],
-    version = 1
+    version = 2
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getDaoExpenses(): ExpensesDao
@@ -26,7 +26,7 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "app-database"
-                ).build()
+                ).fallbackToDestructiveMigration().build() // Потом надо добавить миграции
                 INSTANCE = instance
                 instance
             }

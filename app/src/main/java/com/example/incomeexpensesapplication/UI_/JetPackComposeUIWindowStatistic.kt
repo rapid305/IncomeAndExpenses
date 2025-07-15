@@ -1,5 +1,6 @@
 package com.example.incomeexpensesapplication.UI_
 
+import android.R
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -39,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -112,6 +114,15 @@ fun MyMainScreen(viewModel: ExpensesViewModel = viewModel() , NavController: Nav
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
             )
+            Box(modifier = Modifier.fillMaxWidth().padding(15.dp),
+                contentAlignment = Alignment.Center,
+                ) {
+                Text(text = "Future Expenses and Income",
+                    style = TextStyle(
+                        color = Color.Black,
+                        fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                    ))
+            }
             LazyColumn(
                 modifier = Modifier
                     .weight(1f)
@@ -143,7 +154,7 @@ fun ListOfItem(textItem: String) {
 }
 
 @Composable
-private fun ButtonAdd(navController: NavController) {
+fun ButtonAdd(navController: NavController) {
     FloatingActionButton(
         onClick = {
           navController.navigate("AddWindow")
@@ -174,13 +185,4 @@ fun RoundedCornerBoxClipped() {
 fun BoxPreview(){
     RoundedCornerBoxClipped()
 }
-/*
-@Composable
-fun Line(){
-    Box(modifier =
-        Modifier.fillMaxWidth()
-            .height(3.dp)
-            .background(Color.Black)){
 
-    }
-}*/
