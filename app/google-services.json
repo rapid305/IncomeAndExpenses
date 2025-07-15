@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "297234733352",
+    "project_id": "myapplication-e5b6d",
+    "storage_bucket": "myapplication-e5b6d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:297234733352:android:d211a25ae4f0320055181d",
+        "android_client_info": {
+          "package_name": "com.example.incomeexpensesapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZmb6WXc8X7XdZZ1zFI8ZDZFCo2o4J91U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
