@@ -10,7 +10,7 @@ import com.example.incomeexpensesapplication.DataBase.Model.Income
 
 @Database(
     entities = [Income::class, Expenses::class],
-    version = 2
+    version = 1
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getDaoExpenses(): ExpensesDao

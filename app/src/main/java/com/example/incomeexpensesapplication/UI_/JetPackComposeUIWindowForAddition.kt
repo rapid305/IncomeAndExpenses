@@ -1,7 +1,9 @@
 package com.example.incomeexpensesapplication.UI_
 
+import android.R.attr.onClick
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,7 +12,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -79,16 +85,19 @@ fun Window(navController: NavController , viewModel: ExpensesViewModel) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+            Box(modifier = Modifier.padding(15.dp)) {
+                DropDown()
+            }
             TextField(
                 value = title,
                 onValueChange = { title = it },
-                label = { Text("Введите Текст") },
+                label = { Text("Input Title") },
                 modifier = Modifier.fillMaxWidth()
             )
             TextField(
                 value = amount,
                 onValueChange = { amount = it },
-                label = { Text("Введите Текст") },
+                label = { Text("Input Amount") },
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -102,6 +111,48 @@ fun Window(navController: NavController , viewModel: ExpensesViewModel) {
                 }
             ) {
                 Text(text = "Submit")
+            }
+        }
+    }
+}
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DropDown() {
+    val listOfChoice = listOf("Income", "Expenses")
+    var isExpanded by remember { mutableStateOf(false) }
+    var selectedChoice by remember { mutableStateOf(listOfChoice[0]) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        ExposedDropdownMenuBox(
+            expanded = isExpanded,
+            onExpandedChange = { isExpanded = !isExpanded }
+        ) {
+            TextField(
+                modifier = Modifier.menuAnchor(),
+                value = selectedChoice,
+                onValueChange = {},
+                readOnly = true,
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) }
+            )
+            ExposedDropdownMenu(
+                expanded = isExpanded,
+                onDismissRequest = { isExpanded = false }
+            ) {
+                listOfChoice.forEach { text ->
+                    DropdownMenuItem(
+                        text = { Text(text = text) },
+                        onClick = {
+                            selectedChoice = text
+                            isExpanded = false
+                        },
+                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                    )
+                }
             }
         }
     }
