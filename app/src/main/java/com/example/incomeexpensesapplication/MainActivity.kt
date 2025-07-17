@@ -8,8 +8,9 @@ import androidx.activity.enableEdgeToEdge
 import com.example.incomeexpensesapplication.DataBase.AppDatabase
 import com.example.incomeexpensesapplication.DataBase.Navigation.NavGraphSetup
 import com.example.incomeexpensesapplication.Repository.ExpensesRepository
-import com.example.incomeexpensesapplication.ViewModel.ExpensesViewModel
-import com.example.incomeexpensesapplication.UI_.MyMainScreen
+import com.example.incomeexpensesapplication.Repository.IncomeRepository
+import com.example.incomeexpensesapplication.ViewModel.GeneralViewModel
+
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -17,8 +18,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         val db = AppDatabase.getDatabase(this)
-        val repository = ExpensesRepository(db.getDaoExpenses())
-        val viewModel = ExpensesViewModel(repository)
+//        val repository = ExpensesRepository(db.getDaoExpenses())
+        val incomeRepo = IncomeRepository(db.getDaoIncome())
+        val expenseRepo = ExpensesRepository(db.getDaoExpenses())
+        val viewModel = GeneralViewModel(incomeRepo, expenseRepo)
         setContent {
             NavGraphSetup(viewModel)
         }

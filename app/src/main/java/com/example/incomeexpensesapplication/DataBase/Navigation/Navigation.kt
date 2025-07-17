@@ -7,11 +7,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
 import com.example.incomeexpensesapplication.UI_.MyMainScreen
 import com.example.incomeexpensesapplication.UI_.Window
-import com.example.incomeexpensesapplication.ViewModel.ExpensesViewModel
+import com.example.incomeexpensesapplication.ViewModel.GeneralViewModel
 
 
 @Composable
-fun NavGraphSetup(viewModel: ExpensesViewModel) {
+fun NavGraphSetup(viewModel: GeneralViewModel) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "MainWindow", builder = {
       composable("MainWindow"){
