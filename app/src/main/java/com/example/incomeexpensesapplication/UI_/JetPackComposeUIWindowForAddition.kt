@@ -1,7 +1,7 @@
 package com.example.incomeexpensesapplication.UI_
 
-import android.R.attr.onClick
-import android.annotation.SuppressLint
+
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -34,21 +33,24 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.graphics.Color
 import com.example.incomeexpensesapplication.DataBase.Model.Expenses
-import com.example.incomeexpensesapplication.ViewModel.ExpensesViewModel
+import com.example.incomeexpensesapplication.DataBase.Model.Income
+import com.example.incomeexpensesapplication.ViewModel.GeneralViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Window(navController: NavController , viewModel: ExpensesViewModel) {
+fun Window(navController: NavController , viewModel: GeneralViewModel) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     var title by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
+    var selectedChoice by remember {
+        mutableStateOf("Income")
+    }
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -86,7 +88,9 @@ fun Window(navController: NavController , viewModel: ExpensesViewModel) {
             verticalArrangement = Arrangement.Center
         ) {
             Box(modifier = Modifier.padding(15.dp)) {
-                DropDown()
+                DropDown { type ->
+                    selectedChoice = type
+                }
             }
             TextField(
                 value = title,
@@ -106,7 +110,15 @@ fun Window(navController: NavController , viewModel: ExpensesViewModel) {
                     .width(200.dp)
                     .padding(35.dp),
                 onClick = {
-                    viewModel.addExpense(Expenses(title = title, amount = amount))
+                    if(!title.isEmpty() && !amount.isEmpty()) {
+                        when (selectedChoice) {
+                            "Income" -> viewModel.addIncome(Income(title = title, amount = amount))
+                            "Expenses" -> viewModel.addExpense(Expenses(title = title, amount = amount))
+
+                        }
+                        Log.d("Created" , "Createddd" )
+                    }
+                    Log.d("Back" , "CreatedBeforePopBack")
                     navController.popBackStack()
                 }
             ) {
@@ -117,7 +129,7 @@ fun Window(navController: NavController , viewModel: ExpensesViewModel) {
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropDown() {
+fun DropDown(onSelectionChanged : (String) -> Unit) {
     val listOfChoice = listOf("Income", "Expenses")
     var isExpanded by remember { mutableStateOf(false) }
     var selectedChoice by remember { mutableStateOf(listOfChoice[0]) }
@@ -133,7 +145,7 @@ fun DropDown() {
             onExpandedChange = { isExpanded = !isExpanded }
         ) {
             TextField(
-                modifier = Modifier.menuAnchor(),
+                modifier = Modifier,
                 value = selectedChoice,
                 onValueChange = {},
                 readOnly = true,
@@ -149,6 +161,7 @@ fun DropDown() {
                         onClick = {
                             selectedChoice = text
                             isExpanded = false
+                            onSelectionChanged(text)
                         },
                         contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
                     )
