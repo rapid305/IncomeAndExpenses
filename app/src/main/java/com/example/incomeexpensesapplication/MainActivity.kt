@@ -6,7 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.example.incomeexpensesapplication.DataBase.AppDatabase
-import com.example.incomeexpensesapplication.DataBase.Navigation.NavGraphSetup
+import com.example.incomeexpensesapplication.Navigationn.NavGraphSetup
 import com.example.incomeexpensesapplication.Repository.ExpensesRepository
 import com.example.incomeexpensesapplication.Repository.IncomeRepository
 import com.example.incomeexpensesapplication.ViewModel.GeneralViewModel

@@ -1,4 +1,4 @@
-package com.example.incomeexpensesapplication.UI_
+package com.example.incomeexpensesapplication.JetpackComposeUI
 
 
 import androidx.compose.foundation.background
